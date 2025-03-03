@@ -34,7 +34,12 @@
       "allowToChangeInstallationDirectory": true
     },
     "files": [
-      "!database/**"
-    ]
+      "!database/**" 
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "Eirvia", 
+      "repo": "the-obsidian-companion" 
+    }
   }
 }
