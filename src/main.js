@@ -3,7 +3,14 @@ const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 
-const db = new sqlite3.Database('./database/profiles.db');
+// Get the user's app data directory
+const userDataPath = app.getPath('userData');
+
+// Define the path to your SQLite database
+const dbPath = path.join(userDataPath, 'profiles.db');
+
+// Create or connect to the database
+const db = new sqlite3.Database(dbPath);
 
 db.serialize(() => {
   db.run(`
@@ -64,6 +71,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       enableRemoteModule: false,
+      nodeIntegration: false,
     },
   });
 

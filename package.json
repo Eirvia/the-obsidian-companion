@@ -1,6 +1,6 @@
 {
   "name": "the-obsidian-companion",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
@@ -16,18 +16,25 @@
     "electron-builder": "^25.1.8"
   },
   "dependencies": {
+    "electron-updater": "^6.3.9",
     "sqlite3": "^5.1.7"
   },
   "build": {
     "appId": "com.timerapp.eirvia",
     "productName": "The Obsidian Companion",
     "win": {
-      "target": ["nsis", "portable"],
+      "target": [
+        "nsis",
+        "portable"
+      ],
       "icon": "build/icon.ico"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
-    }
+    },
+    "files": [
+      "!database/**"
+    ]
   }
 }
