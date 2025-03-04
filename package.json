@@ -4,7 +4,12 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "publish": "electron-builder -p always"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Eirvia/the-obsidian-companion"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +21,7 @@
     "electron-builder": "^25.1.8"
   },
   "dependencies": {
+    "electron-log": "^4.4.8",
     "electron-updater": "^6.3.9",
     "sqlite3": "^5.1.7"
   },
@@ -27,15 +33,15 @@
         "nsis",
         "portable"
       ],
-      "icon": "build/icon.ico"
+      "icon": "build/icon.ico",
+      "publisherName": "Eirvia Inc."
     },
     "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
     },
-    "files": [
-      "!database/**" 
-    ],
+    "files": ["**/*", "!database/**", "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"],
     "publish": {
       "provider": "github",
       "owner": "Eirvia", 

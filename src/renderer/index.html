@@ -33,7 +33,12 @@
         <!-- Dynamic content will be injected here -->
         <h1>The Obsidian Companion v1.0.5</h1>
         <p>Select or Create a Profile to Start :3</p>
-        <button onclick="checkForUpdates()">Check for Updates</button>
+        <div id="update-notification">
+          <p id="update-message">An update is available!</p>
+          <button id="update-button" style="display:none">Restart to Update</button>
+        </div>
+        
+        <div id="update-log"></div>
       </div>
 
       
@@ -83,7 +88,39 @@
   </div>
   <script type="module" src="js/main.js"></script>
   <script>
+    // Listen for update messages
+    window.electron.on('update-message', (message) => {
+      const logElement = document.getElementById('update-log');
+      const newLine = document.createElement('div');
+      newLine.textContent = message;
+      logElement.appendChild(newLine);
+      logElement.scrollTop = logElement.scrollHeight;
+    });
+
+    // Listen for update available
+    window.electron.on('update_available', () => {
+      const notification = document.getElementById('update-notification');
+      notification.style.display = 'block';
+      document.getElementById('update-message').textContent = 'An update is available and downloading...';
+    });
+
+    // Listen for update downloaded
+    window.electron.on('update_downloaded', () => {
+      const notification = document.getElementById('update-notification');
+      const updateButton = document.getElementById('update-button');
+      notification.style.display = 'block';
+      document.getElementById('update-message').textContent = 'Update downloaded! Restart to apply.';
+      updateButton.style.display = 'block';
+      updateButton.onclick = () => {
+        window.electron.send('restart_app');
+      };
+    });
+
+    // Manual update check
     function checkForUpdates() {
+      const logElement = document.getElementById('update-log');
+      logElement.style.display = 'block';
+      logElement.innerHTML = '<div>Checking for updates...</div>';
       window.electron.send('force-update-check');
     }
   </script>

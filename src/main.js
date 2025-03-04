@@ -1,9 +1,8 @@
-
-
-const { app, BrowserWindow, ipcMain, net } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
+const log = require('electron-log');
 
 // Get the user's app data directory
 const userDataPath = app.getPath('userData');
@@ -14,7 +13,10 @@ const dbPath = path.join(userDataPath, 'profiles.db');
 // Create or connect to the database
 const db = new sqlite3.Database(dbPath);
 
-
+// Configure logging
+log.transports.file.level = 'debug';
+autoUpdater.logger = log;
+autoUpdater.autoDownload = true;
 
 db.serialize(() => {
   db.run(`
@@ -81,38 +83,70 @@ function createWindow() {
 
   mainWindow.loadFile(path.join(__dirname, 'renderer/index.html'));
 
-  // Before autoUpdater.checkForUpdates()
+  // Debug network requests
   const session = mainWindow.webContents.session;
   session.webRequest.onBeforeRequest({ urls: ['*://*/*'] }, (details, callback) => {
-    console.log('Network Request:', details.url);
+    log.debug('Network Request:', details.url);
     callback({ cancel: false });
   });
 
-  // Wait for window to be ready before checking updates
-  mainWindow.on('ready-to-show', () => {
-    autoUpdater.checkForUpdatesAndNotify();
+  // Setup update events
+  function sendStatusToWindow(text) {
+    log.info(text);
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('update-message', text);
+    }
+  }
+
+  autoUpdater.on('checking-for-update', () => {
+    sendStatusToWindow('Checking for updates...');
   });
 
-  // Handle auto-updater events
-  autoUpdater.on('update-available', () => {
+  autoUpdater.on('update-available', (info) => {
+    sendStatusToWindow('Update available: ' + JSON.stringify(info));
     if (mainWindow && !mainWindow.isDestroyed()) {
-      mainWindow.webContents.send('update_available');
+      mainWindow.webContents.send('update_available', info);
     }
   });
 
-  autoUpdater.on('update-downloaded', () => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-      mainWindow.webContents.send('update_downloaded');
-    }
+  autoUpdater.on('update-not-available', (info) => {
+    sendStatusToWindow('Update not available: ' + JSON.stringify(info));
   });
 
   autoUpdater.on('error', (err) => {
-    console.error('Update error:', err);
+    sendStatusToWindow('Error in auto-updater: ' + err.toString());
+  });
+
+  autoUpdater.on('download-progress', (progressObj) => {
+    let logMessage = 'Download speed: ' + progressObj.bytesPerSecond;
+    logMessage = logMessage + ' - Downloaded ' + progressObj.percent + '%';
+    logMessage = logMessage + ' (' + progressObj.transferred + '/' + progressObj.total + ')';
+    sendStatusToWindow(logMessage);
+  });
+
+  autoUpdater.on('update-downloaded', (info) => {
+    sendStatusToWindow('Update downloaded; will install now');
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('update_downloaded', info);
+    }
+  });
+
+  // Check for updates after window is ready
+  mainWindow.on('ready-to-show', () => {
+    // Add delay to ensure app is fully loaded
+    setTimeout(() => {
+      autoUpdater.checkForUpdatesAndNotify().catch(err => {
+        log.error('Error checking for updates:', err);
+      });
+    }, 2000);
   });
 }
 
 ipcMain.on('force-update-check', () => {
-  autoUpdater.checkForUpdates();
+  log.info('Manual update check triggered');
+  autoUpdater.checkForUpdates().catch(err => {
+    log.error('Error in manual update check:', err);
+  });
 });
 
 app.whenReady().then(createWindow);
