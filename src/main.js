@@ -16,7 +16,7 @@ const db = new sqlite3.Database(dbPath);
 // Configure logging
 log.transports.file.level = 'debug';
 autoUpdater.logger = log;
-autoUpdater.autoDownload = true;
+autoUpdater.autoDownload = false;
 
 db.serialize(() => {
   db.run(`
@@ -103,18 +103,27 @@ function createWindow() {
   });
 
   autoUpdater.on('update-available', (info) => {
-    sendStatusToWindow('Update available: ' + JSON.stringify(info));
-    if (mainWindow && !mainWindow.isDestroyed()) {
-      mainWindow.webContents.send('update_available', info);
-    }
-  });
+    console.log('Update available');
+    // console.log('Update available:', info);
+  
+    // Explicitly trigger download
+    autoUpdater.downloadUpdate()
+      .then(() => {
+        console.log('Download started');
+      })
+      .catch((err) => {
+        console.error('Download error:', err);
+      });
+    });
 
   autoUpdater.on('update-not-available', (info) => {
-    sendStatusToWindow('Update not available: ' + JSON.stringify(info));
+    sendStatusToWindow('Update not available');
+    // sendStatusToWindow('Update not available: ' + JSON.stringify(info));
   });
 
   autoUpdater.on('error', (err) => {
-    sendStatusToWindow('Error in auto-updater: ' + err.toString());
+    sendStatusToWindow('Error in auto-updater');
+    // sendStatusToWindow('Error in auto-updater: ' + err.toString());
   });
 
   autoUpdater.on('download-progress', (progressObj) => {
@@ -125,9 +134,12 @@ function createWindow() {
   });
 
   autoUpdater.on('update-downloaded', (info) => {
-    sendStatusToWindow('Update downloaded; will install now');
+    sendStatusToWindow('Update downloaded; please click Restart to Update!');
     if (mainWindow && !mainWindow.isDestroyed()) {
       mainWindow.webContents.send('update_downloaded', info);
+
+      log.info('Update downloaded', info);
+      log.info('Actual downloaded file path:', info.downloadedFile);
     }
   });
 

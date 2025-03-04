@@ -16,7 +16,17 @@ contextBridge.exposeInMainWorld('electron', {
     }
   },
   invoke: (channel, data) => {
-    const validChannels = ['get-app-version', 'fetch-profiles']; // Added both channels
+    const validChannels = [
+      'get-app-version', 
+      'fetch-profiles', 
+      'create-profile', 
+      'update-profile-order', 
+      'create-category', 
+      'fetch-categories', 
+      'create-timer', 
+      'fetch-timers', 
+      'delete-timer'
+    ];
     if (validChannels.includes(channel)) {
       return ipcRenderer.invoke(channel, data);
     }

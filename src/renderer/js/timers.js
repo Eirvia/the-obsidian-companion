@@ -249,7 +249,7 @@ window.startTimer = (category, subCategory, initialTime) => {
 
   // Prevent action if the button is disabled
   if (startButton?.disabled) {
-    console.log('Start button is disabled. Ignoring click.');
+    console.log('[A] Start button is disabled. Ignoring click.');
     return;
   }
 
@@ -302,7 +302,7 @@ window.stopTimer = (category, subCategory) => {
 
   // Prevent action if the button is disabled
   if (stopButton?.disabled) {
-    console.log('Stop button is disabled. Ignoring click.');
+    console.log('[B] Stop button is disabled. Ignoring click.');
     return;
   }
 
@@ -368,15 +368,15 @@ function updateTimerButtons(category, subCategory, isRunning) {
   startButton.disabled = isRunning; // Disable Start if running
   stopButton.disabled = !isRunning; // Disable Stop if not running
 
-  console.log(`Buttons updated for ${category}-${subCategory}:`, {
-    startButton: startButton.disabled ? 'Disabled' : 'Enabled',
-    stopButton: stopButton.disabled ? 'Disabled' : 'Enabled',
-  });
+  // console.log(`Buttons updated for ${category}-${subCategory}:`, {
+  //   startButton: startButton.disabled ? 'Disabled' : 'Enabled',
+  //   stopButton: stopButton.disabled ? 'Disabled' : 'Enabled',
+  // });
 }
 
 // Delete Timer
 window.deleteTimer = async (category, subCategory) => {
-  console.log('Deleting timer:', category, subCategory);
+  // console.log('Deleting timer:', category, subCategory);
 
   // Fetch timers for the current profile
   const timers = await window.electron.invoke('fetch-timers', getCurrentProfileId());
