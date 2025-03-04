@@ -1,3 +1,5 @@
+
+
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const path = require('path');
@@ -11,6 +13,20 @@ const dbPath = path.join(userDataPath, 'profiles.db');
 
 // Create or connect to the database
 const db = new sqlite3.Database(dbPath);
+
+import { net } from 'electron';
+
+process.env.ELECTRON_IS_DEV = '0'; // Force production mode
+require('electron-updater').Logger.prototype.log = function(message) {
+  console.log('[Updater]', message);
+};
+
+// Before autoUpdater.checkForUpdates()
+const session = mainWindow.webContents.session;
+session.webRequest.onBeforeRequest({ urls: ['*://*/*'] }, (details, callback) => {
+  console.log('Network Request:', details.url);
+  callback({ cancel: false });
+});
 
 db.serialize(() => {
   db.run(`
@@ -99,6 +115,10 @@ function createWindow() {
     console.error('Update error:', err);
   });
 }
+
+ipcMain.on('force-update-check', () => {
+  autoUpdater.checkForUpdates();
+});
 
 app.whenReady().then(createWindow);
 
