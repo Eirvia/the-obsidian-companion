@@ -33,14 +33,11 @@
         <!-- Dynamic content will be injected here -->
         <h1>The Obsidian Companion v1.0.4</h1>
         <p>Select or Create a Profile to Start :3</p>
+        <button onclick="checkForUpdates()">Check for Updates</button>
       </div>
 
-      <button onclick="checkForUpdates()">Check for Updates</button>
-      <script>
-        function checkForUpdates() {
-          window.electron.send('force-update-check');
-        }
-      </script>
+      
+      
     
 
     <div class="bottom-bar" id="bottom-bar">
@@ -85,5 +82,10 @@
     </div>
   </div>
   <script type="module" src="js/main.js"></script>
+  <script>
+    function checkForUpdates() {
+      window.electron.send('force-update-check');
+    }
+  </script>
 </body>
 </html>

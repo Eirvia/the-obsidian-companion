@@ -14,3 +14,4 @@ window.electron.onUpdateDownloaded(() => {
     window.electron.restartApp();
   }
 });
+
