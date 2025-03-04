@@ -142,6 +142,10 @@ function createWindow() {
   });
 }
 
+ipcMain.handle('get-app-version', () => {
+  return app.getVersion();
+});
+
 ipcMain.on('force-update-check', () => {
   log.info('Manual update check triggered');
   autoUpdater.checkForUpdates().catch(err => {

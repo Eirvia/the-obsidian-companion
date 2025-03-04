@@ -38,14 +38,18 @@
     },
     "nsis": {
       "oneClick": true,
-      "allowToChangeInstallationDirectory": true,
+      "allowToChangeInstallationDirectory": false,
       "createDesktopShortcut": true
     },
-    "files": ["**/*", "!database/**", "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"],
+    "files": [
+      "**/*",
+      "!database/**",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"
+    ],
     "publish": {
       "provider": "github",
-      "owner": "Eirvia", 
-      "repo": "the-obsidian-companion" 
+      "owner": "Eirvia",
+      "repo": "the-obsidian-companion"
     }
   }
 }
