@@ -1,6 +1,6 @@
 {
   "name": "the-obsidian-companion",
-  "version": "1.0.6",
+  "version": "1.0.5",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
@@ -27,7 +27,7 @@
   },
   "build": {
     "appId": "com.timerapp.eirvia",
-    "productName": "The Obsidian Companion",
+    "productName": "TheObsidianCompanion",
     "win": {
       "target": [
         "nsis",
