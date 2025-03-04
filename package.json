@@ -28,6 +28,7 @@
   "build": {
     "appId": "com.timerapp.eirvia",
     "productName": "TheObsidianCompanion",
+    "artifactName": "${productName}-Setup-${version}.${ext}",
     "win": {
       "target": [
         "nsis",
