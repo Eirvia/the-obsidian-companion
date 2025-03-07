@@ -1,0 +1,129 @@
+/* Sidebar */
+.sidebar {
+  height: 100vh; /* Full height */
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed; /* Fix the sidebar */
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding: 20px 10px;
+  box-sizing: border-box; /* Include padding in the width */
+  z-index: 1000;
+}
+
+.sidebar h2 {
+  margin: 0 0 20px 0;
+}
+
+.add-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.add-profile:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.add-profile i {
+  font-size: 20px;
+}
+
+/* Dynamic Content */
+.dynamic-profile {
+  text-align: center;
+}
+
+.dynamic-profile h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Top Bar */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 70px; /* Match sidebar width */
+  right: 0;
+  height: 40px;
+  background: rgb(0, 0, 0);
+  z-index: 1000;
+}
+
+/* Bottom Bar */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 70px; /* Match sidebar width */
+  right: 0;
+  height: 40px;
+  background: rgb(0, 0, 0);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+  display: none; /* Hidden by default */
+}
+
+.bottom-bar-left {
+  display: flex;
+  align-items: center;
+}
+
+.add-timer-button {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.add-timer-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.add-timer-button i {
+  font-size: 20px;
+}
+
+.settings-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.settings-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+
+/* Category Group */
+.category-group {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.category-group h3 {
+  color: #fff;
+  margin-bottom: 10px;
+  font-size: 18px;
+}

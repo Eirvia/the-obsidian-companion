@@ -1,0 +1,59 @@
+#dark-mode-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#dark-mode-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .sidebar {
+  background: #1e1e1e;
+}
+
+body.dark-mode .top-bar,
+body.dark-mode .bottom-bar {
+  background: #1e1e1e;
+}
+
+body.dark-mode .profile-card {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .modal-content {
+  background: #2d2d2d;
+}
+
+/* Light Mode Styles */
+body.light-mode {
+  background: #f5f5f5;
+  color: #000000;
+}
+
+body.light-mode .sidebar {
+  background: #ffffff;
+}
+
+body.light-mode .top-bar,
+body.light-mode .bottom-bar {
+  background: #ffffff;
+}
+
+body.light-mode .profile-card {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .modal-content {
+  background: #ffffff;
+}

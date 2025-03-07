@@ -1,0 +1,96 @@
+/* Timer Input */
+#timerInput {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  font-family: monospace; /* Use monospace font for better alignment */
+}
+
+#timerInput::placeholder {
+  color: #999;
+}
+
+/* Timer Card */
+.timer-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px; /* Space between timers */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Separator */
+  transition: background-color 0.3s ease;
+}
+
+/* Timer Content */
+.timer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space out timer and buttons */
+  gap: 10px; /* Space between elements */
+}
+
+.subcategory {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.timer-content .subcategory {
+  font-size: 14px;
+  color: #fff;
+  flex: 1; /* Allow subcategory to take up remaining space */
+}
+
+.timer-content .timer-display {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  width: 80px; /* Fixed width for time display */
+  text-align: center;
+}
+
+/* Timer Controls */
+.timer-content .timer-controls {
+  display: flex;
+  gap: 5px; /* Space between buttons */
+}
+
+.timer-content button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.timer-content button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.timer-content .delete-btn {
+  background: rgba(255, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-content .delete-btn:hover {
+  background: rgba(255, 0, 0, 0.2);
+}
+
+.timer-content .delete-btn i {
+  font-size: 14px; /* Adjust icon size */
+}
+
+/* Timers Grid */
+.timers-grid {
+  display: grid;
+  gap: 20px; /* Space between category groups */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+}
+
+.timer-card.timer-ended {
+  background-color: #ff7d7d; /* Light red background */
+}
