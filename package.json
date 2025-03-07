@@ -1,11 +1,17 @@
 {
+  "type": "module",
   "name": "the-obsidian-companion",
   "version": "1.1.1",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "npm run build:preload && electron .",
     "build": "electron-builder",
-    "publish": "electron-builder -p always"
+    "publish": "electron-builder -p always",
+    "build:css": "postcss src/index.css -o dist/output.css",
+    "watch:css": "postcss src/index.css -o dist/output.css --watch",
+    "build:preload": "webpack --config webpack.preload.config.mjs",
+    "clean": "rimraf dist",
+    "build:all": "npm run clean && npm run build:css && npm run build:preload"
   },
   "repository": {
     "type": "git",
@@ -16,13 +22,24 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "@tailwindcss/postcss": "^4.0.11",
+    "autoprefixer": "^10.4.20",
+    "babel-loader": "^10.0.0",
     "concurrently": "^9.1.2",
     "electron": "^34.2.0",
-    "electron-builder": "^25.1.8"
+    "electron-builder": "^25.1.8",
+    "electron-updater": "^6.3.9",
+    "postcss": "^8.5.3",
+    "postcss-cli": "^11.0.0",
+    "rimraf": "^6.0.1",
+    "tailwindcss": "^4.0.0",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
   },
   "dependencies": {
     "electron-log": "^4.4.8",
-    "electron-updater": "^6.3.9",
     "sqlite3": "^5.1.7"
   },
   "build": {

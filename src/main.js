@@ -1,8 +1,13 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const { autoUpdater } = require('electron-updater');
-const path = require('path');
-const sqlite3 = require('sqlite3').verbose();
-const log = require('electron-log');
+import { app, BrowserWindow, ipcMain } from 'electron';
+import pkg from 'electron-updater';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const { autoUpdater } = pkg;
+const { default: sqlite3 } = await import('sqlite3');
+const { default: log } = await import('electron-log');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Get the user's app data directory
 const userDataPath = app.getPath('userData');
@@ -74,10 +79,15 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,
-      enableRemoteModule: false,
+      preload: path.join(__dirname, '../dist/preload.bundle.js'),
+      // Add these lines:
       nodeIntegration: false,
+      contextIsolation: true,
+      sandbox: true,
+      enableRemoteModule: false,
+      // Specify the preload script as an ES module:
+      worldSafeExecuteJavaScript: true,
+      contextIsolation: true,
     },
   });
 
